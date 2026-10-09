@@ -1,7 +1,7 @@
 {
   "name": "fold-turns",
-  "version": "0.2.0",
-  "description": "Codex-style replies in the Code tab: folds progress messages after each reply behind a 'Worked for…' line and a Show progress button, and starts each answer with a divider and heading.",
+  "version": "0.2.1",
+  "description": "Codex-style replies in the Code tab: folds progress messages after each reply behind a 'Worked for…' line, and starts each answer with a divider and heading.",
   "author": { "name": "Eugene Jang" },
   "types": "./types/index.d.ts"
 }

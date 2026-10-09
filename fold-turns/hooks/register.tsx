@@ -6,7 +6,6 @@ import { computeFolds, duration, foldOfText, foldOfTool, mergeFolds, steps } fro
 
 const folds = atom({ plugin: 'fold-turns', key: 'folds' } as const, [])
 const open = atom({ plugin: 'fold-turns', key: 'open' } as const, [])
-const showAll = atom({ plugin: 'fold-turns', key: 'showAll' } as const, false)
 
 const KEEP_SESSIONS = 100
 
@@ -40,7 +39,7 @@ async function toggle($: EngineInterface, id: string) {
 // opened. A message folds by blanking its text, the one way the desktop honours.
 // The anchor (the turn's first tool row) carries the turn's toggle above it.
 async function isOpen($: EngineInterface, fold: Fold) {
-  return (await read($, showAll)) || (await read($, open)).includes(fold.id)
+  return (await read($, open)).includes(fold.id)
 }
 
 async function drawAnchor<E extends RenderInput>($: EngineInterface, e: E, fold: Fold, next: (e: E) => Promise<RenderElement>) {
@@ -109,13 +108,5 @@ export const register: Register = on => {
     const fold = foldOfText(await read($, folds), e.props.text)
     if (!fold || (await isOpen($, fold))) return next(e)
     return next({ ...e, props: { ...e.props, text: '' } })
-  })
-
-  // One always-visible switch above the message box for every reply at once.
-  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    if (e.props.hasSurvey || (await read($, folds)).length === 0) return next(e)
-    const { Button } = $.ui.resolve(e)
-    const all = await read($, showAll)
-    return <Button key="show-progress" plain dimColor label={all ? 'Hide progress' : 'Show progress'} onPress={() => update($, showAll, v => !v)} />
   })
 }

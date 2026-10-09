@@ -16,7 +16,6 @@ const MESSAGES: SessionMessage[] = [
   result,
   ai('The answer'),
 ]
-const BAND = { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 80, scroll: { offset: 0, bodyRows: 9 }, view: {} } as any
 const call = (tool_use_id: string) => ({ tool_use_id, tool: 'Bash', input: { command: 'ls' }, isRunning: false, isErrored: false, isInterrupted: false })
 
 test('a folded turn hides only its progress messages; the toggle and the button bring them back', async ($, on) => {
@@ -36,7 +35,6 @@ test('a folded turn hides only its progress messages; the toggle and the button 
     const rest = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'ToolUse', props: call('t2') })
     const text = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'AssistantMessage', props: { text: 'Looking at the files', isFirstOfReply: true } })
     const answer = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'AssistantMessage', props: { text: 'The answer', isFirstOfReply: true } })
-    const band = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'AbovePrompt', props: BAND })
 
     // Folded: the toggle sits above the first command, commands stay, progress text goes.
     expect((await anchor.find({ key: 'fold:t1' }))?.text).toContain('▸ Worked · 2 steps')
@@ -52,14 +50,7 @@ test('a folded turn hides only its progress messages; the toggle and the button 
     await anchor.press({ key: 'fold:t1' })
     expect(await text.find({ type: 'Text', text: /Looking/ })).toBeUndefined()
 
-    // The button above the message box opens and closes every reply.
-    expect((await band.find({ key: 'show-progress' }))?.text).toContain('Show progress')
-    await band.press({ key: 'show-progress' })
-    expect((await band.find({ key: 'show-progress' }))?.text).toContain('Hide progress')
-    expect(await text.find({ type: 'Text', text: /Looking at the files/ })).toBeDefined()
-    await band.press({ key: 'show-progress' })
-    expect(await text.find({ type: 'Text', text: /Looking/ })).toBeUndefined()
-    for (const ui of [anchor, rest, text, answer, band]) await ui.unmount()
+    for (const ui of [anchor, rest, text, answer]) await ui.unmount()
   }
 })
 
