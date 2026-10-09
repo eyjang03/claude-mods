@@ -1,0 +1,12 @@
+{
+  "name": "claude-mods",
+  "owner": { "name": "Eugene Jang" },
+  "description": "Eugene's Claude Code mods, shared by his MacBook and Mac mini.",
+  "plugins": [
+    {
+      "name": "fold-turns",
+      "source": "./fold-turns",
+      "description": "Codex-style replies in the Code tab: progress folds after each reply; the answer starts with a divider and heading."
+    }
+  ]
+}
