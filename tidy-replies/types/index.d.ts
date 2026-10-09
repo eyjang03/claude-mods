@@ -7,6 +7,6 @@ export type Fold = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'fold-turns': { folds: Fold[]; open: string[] }
+    'tidy-replies': { folds: Fold[]; open: string[] }
   }
 }

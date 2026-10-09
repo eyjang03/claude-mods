@@ -31,10 +31,10 @@ test('a folded turn hides only its progress messages; the toggle and the button 
   mock.store(on)
   await $.session.start({ cwd: '/tmp', surface: null, isInteractive: true })
   for (const surface of ['desktop', 'terminal'] as const) {
-    const anchor = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'ToolUse', props: call('t1') })
-    const rest = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'ToolUse', props: call('t2') })
-    const text = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'AssistantMessage', props: { text: 'Looking at the files', isFirstOfReply: true } })
-    const answer = await $.ui.mount({ plugin: 'fold-turns', surface, component: 'AssistantMessage', props: { text: 'The answer', isFirstOfReply: true } })
+    const anchor = await $.ui.mount({ plugin: 'tidy-replies', surface, component: 'ToolUse', props: call('t1') })
+    const rest = await $.ui.mount({ plugin: 'tidy-replies', surface, component: 'ToolUse', props: call('t2') })
+    const text = await $.ui.mount({ plugin: 'tidy-replies', surface, component: 'AssistantMessage', props: { text: 'Looking at the files', isFirstOfReply: true } })
+    const answer = await $.ui.mount({ plugin: 'tidy-replies', surface, component: 'AssistantMessage', props: { text: 'The answer', isFirstOfReply: true } })
 
     // Folded: the toggle sits above the first command, commands stay, progress text goes.
     expect((await anchor.find({ key: 'fold:t1' }))?.text).toContain('▸ Worked · 2 steps')
@@ -68,12 +68,12 @@ test('a finished turn is labelled with its time', async ($, on) => {
   await $.turn.start({ text: 'do it', turnId: 'x' } as any)
   await ($.tool.call as any)({ tool: 'Bash', command: 'ls', tool_use_id: 't2' })
   await $.turn.complete({ answer: 'The answer', durationMs: 125_000, isAborted: false, turnId: 'x', reason: 'answer' })
-  const anchor = await $.ui.mount({ plugin: 'fold-turns', surface: 'desktop', component: 'ToolUse', props: call('t1') })
+  const anchor = await $.ui.mount({ plugin: 'tidy-replies', surface: 'desktop', component: 'ToolUse', props: call('t1') })
   expect((await anchor.find({ key: 'fold:t1' }))?.text).toContain('Worked for 2m 5s · 2 steps')
 })
 
 test('asks for a divider above the answer', async ($, on) => {
   on('prompt.compose', async () => ({ sections: [{ id: 'intro', text: 'base', scope: 'shared' }] }))
   const { sections } = await $.prompt.compose({ model: 'm', promptModel: 'm', surfaces: ['desktop'], tools: ['Bash'], outputStyle: null, traits: [] })
-  expect(sections.map(x => x.id)).toEqual(['intro', 'fold-turns:divider'])
+  expect(sections.map(x => x.id)).toEqual(['intro', 'tidy-replies:divider'])
 })

@@ -4,8 +4,8 @@ import type { EngineInterface, Register, RenderElement, RenderInput } from 'clau
 import type { Fold } from '../types'
 import { computeFolds, duration, foldOfText, foldOfTool, mergeFolds, steps } from './fold'
 
-const folds = atom({ plugin: 'fold-turns', key: 'folds' } as const, [])
-const open = atom({ plugin: 'fold-turns', key: 'open' } as const, [])
+const folds = atom({ plugin: 'tidy-replies', key: 'folds' } as const, [])
+const open = atom({ plugin: 'tidy-replies', key: 'open' } as const, [])
 
 const KEEP_SESSIONS = 100
 
@@ -57,7 +57,7 @@ async function drawAnchor<E extends RenderInput>($: EngineInterface, e: E, fold:
 // The answer still sits among the desktop's tool rows, so the mod asks for a
 // rule and a heading on it (the rule alone draws too faint there).
 const DIVIDER = {
-  id: 'fold-turns:divider',
+  id: 'tidy-replies:divider',
   scope: 'session',
   text: 'When a turn used tools, begin your final message of that turn (the answer that follows the work) with a line containing only `---`, a blank line, then a level-2 markdown heading of a few words stating the outcome (for example `## Divider fixed`), so the answer stands out from the progress messages above it. Never put these on progress messages, and skip them when the turn used no tools.',
 } as const
