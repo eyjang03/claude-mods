@@ -59,7 +59,7 @@ async function drawAnchor<E extends RenderInput>($: EngineInterface, e: E, fold:
 const DIVIDER = {
   id: 'tidy-replies:divider',
   scope: 'session',
-  text: 'When a turn used tools, begin your final message of that turn (the answer that follows the work) with a line containing only `---`, a blank line, then a level-2 markdown heading of a few words stating the outcome (for example `## Divider fixed`), so the answer stands out from the progress messages above it. Never put these on progress messages, and skip them when the turn used no tools.',
+  text: 'When a turn used tools, begin your final message of that turn (the answer that follows the work) with a line containing only `---`, a blank line, then a level-1 markdown heading of a few words stating the outcome (for example `# Divider fixed`), so the answer stands out from the progress messages above it. Never put these on progress messages, and skip them when the turn used no tools.',
 } as const
 
 export const register: Register = on => {
