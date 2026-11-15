@@ -9,11 +9,6 @@
       "name": "tidy-replies",
       "source": "./tidy-replies",
       "description": "Codex-style replies in the Code tab: progress folds after each reply; the answer starts with a divider and heading."
-    },
-    {
-      "name": "halftone-auto",
-      "source": "./halftone-auto",
-      "description": "The Halftone riso sunrise behind the desktop chat: Dawn in light mode, Dusk in dark mode, following the system."
     }
   ]
 }
